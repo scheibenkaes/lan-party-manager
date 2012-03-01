@@ -4,3 +4,6 @@ pom.xml
 /classes/
 .lein-deps-sum
 #*#
+database.db
+/.lobos_stash.clj
+/native/
