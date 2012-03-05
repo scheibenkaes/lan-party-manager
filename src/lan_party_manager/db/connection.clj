@@ -1,9 +1,8 @@
 (ns lan-party-manager.db.connection
-  (:use korma.db))
+  [:use somnium.congomongo])
 
-(def db {:classname "org.sqlite.JDBC"
-   :subprotocol "sqlite"
-   :subname "database.db"})
+(def connection (make-connection "lan_manager"))
 
-(defdb sqlite-db
-  db)
+(defn init! []
+  (set-connection! connection))
+
