@@ -2,6 +2,7 @@
   (:use [lan-party-manager.views.common :only [layout]])
   (:require [lan-party-manager.models.party :as party])
   (:require [noir.response :as response])
+  (:use [net.cgrand.enlive-html :only [deftemplate]])
   (:use [noir.core :only [defpage]]))
 
 (defn layout-lans [ls]
@@ -13,3 +14,11 @@
 
 (defpage "/lans" []
   (response/json (party/all-lans)))
+
+(declare index-template)
+
+(deftemplate index-template "public/index.html" []
+  )
+
+(defpage "/" []
+  (index-template))
