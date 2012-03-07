@@ -15,8 +15,6 @@
 (defpage "/lans" []
   (response/json (party/all-lans)))
 
-(declare index-template)
-
 (deftemplate index-template "public/index.html" []
   )
 
