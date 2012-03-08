@@ -9,9 +9,18 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" />
   </head>
 <body>
+
+  <div class="row offset2">
+    <div class="span8">
+      <h1>LAN Manager</h1>    
+    </div>
+    <div class="span4">
+      <a href="/" class="btn"><i class="icon-home"></i></a>  
+    </div>
+  </div>
+
   <div class="row">
     <div class="span8 offset2">
-      <h1>Lan Manager</h1>  
       <div class="row span12" data-bind="ifnot: selectedLAN">
         <h3>Anstehende LANs</h3>
         <table class="table table-bordered">
@@ -53,7 +62,15 @@
               </thead>
               <tfoot>
                 <tr>
-                  <td colspan="3"><a href="#" class="btn"><i class="icon-plus-sign"></i>Vorschlagen</a></td>
+                  <td colspan="3">
+                    <form method="get" action="/" class="well form-inline">
+                      <input type="text" name="new_game" style="width: 200px;" />
+                      <button type="submit" blass="btn" title="Vorschlagen">
+                        <i class="icon-plus-sign"></i>
+                        </button>
+                    </form>
+                  </td>
+
                 </tr>
               </tfoot>
               <tbody>
