@@ -2,9 +2,74 @@
 <html>
   <head>
     <title>Lan Manager</title>
+    <script type="text/javascript"
+            src="js/twitter-bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/knockout-2.0.0.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" />
   </head>
 <body>
-<h1>Lan Manager</h1>
+  <div class="row">
+    <div class="span8 offset2">
+      <h1>Lan Manager</h1>  
+      <div class="row span12" data-bind="ifnot: selectedLAN">
+        <h3>Anstehende LANs</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Datum</td>
+              <td>Mitspieler</td>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: lansToCome">
+            <tr>
+              <td><a href="#" data-bind="text: name, attr: {href: '#/' + _id}"></a></td>
+              <td data-bind="text: date"></td>
+              <td data-bind="text: players.length">12</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
+      <div class="row span12" data-bind="if: selectedLAN">
+        <h2><span data-bind="text: selectedLAN().name"></span> - <span data-bind="text: selectedLAN().date"></span></h2>
+        <div class="row">  
+          <div class="span4">
+            <h3>Teilnehmer</h3>
+            <ul data-bind="foreach: selectedLAN().players">
+              <li data-bind="text: $data"></li>
+            </ul>
+          </div>
+          <div class="span4 offset4">
+            <h3>Spiele</h3>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <td>Spiel</td>
+                  <td>F&uuml;rsprecher</td>
+                  <td>Abstimmen</td>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <td colspan="3"><a href="#" class="btn"><i class="icon-plus-sign"></i>Vorschlagen</a></td>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>Worms</td><td>5</td><td><a class="btn btn-success"><i class="icon-user icon-white"></i>Upvote</a></td>
+                </tr>
+              </tbody>
+            </table>  
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </body>
+<script type="text/javascript" src="js/sammy-latest.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 </html>

@@ -20,6 +20,6 @@
 (defn all-proposed-games []
   (->> (fetch :lans :only [:proposed-games]) (map :proposed-games) (apply concat) (map id->str) set))
 
-(defn save-lan [{:keys [name proposed-games] :as party}]
+(defn save-lan [{:keys [name proposed-games players] :as party}]
   ; TODO validate
   (insert! :lans party))
