@@ -1,12 +1,12 @@
 (ns lan-party-manager.models.party
   (:use somnium.congomongo))
 
-(def lan-party-required-keys #{:name})
+(def lan-party-required-keys #{:name :games :date :players})
 
-(defstruct lan-party
-  :name
-  :doodle
-  :proposed-games)
+(def game-required-keys #{:name :votes})
+
+(defn validate [obj reqs]
+  (when-let [ks (keys obj)] (every? reqs ks)))
 
 (defn id->str [obj]
   (update-in obj [:_id] str))
@@ -18,8 +18,24 @@
   (id->str (fetch-by-id :lans (object-id id))))
 
 (defn all-proposed-games []
-  (->> (fetch :lans :only [:proposed-games]) (map :proposed-games) (apply concat) (map id->str) set))
+  (->> (fetch :lans :only [:games]) (map :games) (apply concat) (map id->str) set))
 
-(defn save-lan [{:keys [name proposed-games players] :as party}]
-  ; TODO validate
-  (insert! :lans party))
+(def votemaps :votemaps)
+
+(defn upvote-game
+  "increment the value in the votemap"
+  [lan-id game]
+  (let [m (fetch-one votemaps :where {:lan (object-id lan-id)})]
+    (fetch-and-modify votemaps {:lan (object-id lan-id)} {:$inc {(str "map." game) 1}})))
+
+(defn create-vote-map
+  "create a new vote map for the given lan"
+  [{lan-id :_id}]
+  (insert! votemaps {:lan lan-id :map {}}))
+
+(defn save-lan [{:keys [name games players] :as party}]
+  (when-not (validate party lan-party-required-keys)
+    (throw (Exception.
+            (format "Validation failed. Provide all fields (%s) needed for a lan party" lan-party-required-keys))))
+  (-> (insert! :lans party)
+      create-vote-map))
