@@ -13,6 +13,8 @@ function ViewModel() {
 
     this.votersMap = ko.observable(null);
 
+    this.upvoteMessage = ko.observable(null);
+
     this.updateSelectedLAN = function(id){
         $.get('/lans/' + id, null, self.selectedLAN);        
     };
@@ -50,6 +52,13 @@ function ViewModel() {
         return null;
     };
 
+    this.upvoteClicked = function(elm) {
+        var game = elm[0];
+        $.post('/upvote/'+self.selectedLAN()._id, {game: game}, function(data){
+                   self.updateVotersMap(self.selectedLAN()._id);
+                   self.upvoteMessage(data);
+               });
+    };    
 }
 
 ko.applyBindings(new ViewModel());
