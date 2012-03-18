@@ -32,6 +32,12 @@
   [{lan-id :_id}]
   (insert! votemaps {:lan lan-id :map {}}))
 
+(defn get-vote-map [game-id]
+  (let [g (-> (fetch-by-id :lans (object-id game-id)) :games)
+        m* (into {} (for [g* g] [g* 0]))
+        with-votes  (->> (fetch-one votemaps :where {:lan (object-id game-id)}) :map)]
+    (sort-by second > (into [] (merge m* with-votes)))))
+
 (defn save-lan [{:keys [name games players] :as party}]
   (when-not (validate party lan-party-required-keys)
     (throw (Exception.

@@ -11,8 +11,14 @@ function ViewModel() {
 
     this.newGame = ko.observable(null);
 
+    this.votersMap = ko.observable(null);
+
     this.updateSelectedLAN = function(id){
         $.get('/lans/' + id, null, self.selectedLAN);        
+    };
+
+    this.updateVotersMap = function(id){
+        $.get('/votemap/' + id, null, self.votersMap);
     };
 
     Sammy(function() {
@@ -23,6 +29,7 @@ function ViewModel() {
         this.get('#/:id', function() {
                      self.lansToCome(null);
                      self.updateSelectedLAN(this.params.id);
+                     self.updateVotersMap(this.params.id);
                  });
     }).run();
 
@@ -34,6 +41,15 @@ function ViewModel() {
                    self.newGame(null);
                });
     };
+
+    this.voters = function(gameName) {
+        var map = self.votersMap();
+        if (map && map.map){
+            return map.map[gameName];
+        }
+        return null;
+    };
+
 }
 
 ko.applyBindings(new ViewModel());

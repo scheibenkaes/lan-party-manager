@@ -16,6 +16,9 @@
      "No way Jose")
    response/json))
 
+(defpage "/votemap/:id" {id :id}
+  (response/json (party/get-vote-map id)))
+
 (defpage [:post "/upvote/:lan/:game"] {:keys [lan game]}
   (response/json (party/upvote-game lan game)))
 

@@ -73,10 +73,10 @@
 
                 </tr>
               </tfoot>
-              <tbody data-bind="foreach: selectedLAN().games">
+              <tbody data-bind="foreach: votersMap">
                 <tr>
-                  <td data-bind="text: $data"></td>
-                  <td ></td>
+                  <td data-bind="text: $data[0]"></td>
+                  <td data-bind="text: $data[1]"></td>
                   <td><a class="btn btn-success"><i class="icon-user icon-white"></i>Upvote</a></td>
                 </tr>
               </tbody>
