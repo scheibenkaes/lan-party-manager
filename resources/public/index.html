@@ -63,9 +63,9 @@
               <tfoot>
                 <tr>
                   <td colspan="3">
-                    <form method="get" action="/" class="well form-inline">
-                      <input type="text" name="new_game" style="width: 200px;" />
-                      <button type="submit" blass="btn" title="Vorschlagen">
+                    <form method="post" data-bind="submit: proposeGame" class="well form-inline">
+                      <input type="text" data-bind="value: newGame" id="newgame" name="game" style="width: 200px;" />
+                      <button data-bind="enable: newGame() != null && newGame().length >= 3" type="submit" blass="btn" title="Vorschlagen">
                         <i class="icon-plus-sign"></i>
                         </button>
                     </form>
@@ -75,8 +75,8 @@
               </tfoot>
               <tbody data-bind="foreach: selectedLAN().games">
                 <tr>
-                  <td data-bind="text: name"></td>
-                  <td data-bind="text: votes"></td>
+                  <td data-bind="text: $data"></td>
+                  <td ></td>
                   <td><a class="btn btn-success"><i class="icon-user icon-white"></i>Upvote</a></td>
                 </tr>
               </tbody>

@@ -1,4 +1,5 @@
 (ns lan-party-manager.models.party
+  (:use [clojure.string :only [trim]])
   (:use [clojure.set :only [superset?]])
   (:use somnium.congomongo))
 
@@ -37,3 +38,8 @@
             (format "Validation failed. Provide all fields (%s) needed for a lan party" lan-party-required-keys))))
   (-> (insert! :lans party)
       create-vote-map))
+
+(defn add-game [lan game]
+  (when (and lan (not-empty (trim game)) (>= (count game) 3))
+    (when-not (-> (fetch-one :lans :where {:_id (object-id lan)}) :games set (contains? game))
+      (fetch-and-modify :lans {:_id (object-id lan)} {:$push {:games game}}))))

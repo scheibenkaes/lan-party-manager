@@ -9,6 +9,16 @@
   (map (fn [{:keys [doodle name _id proposed-games]}]
          [:div [:h3 [:a {:href  (str "/lans/" _id)} (str name)]]]) ls))
 
+(defpage [:post "/addgame/:lan"] {:keys [lan game]}
+  (-> 
+   (if (party/add-game lan game)
+     "Neues Spiel, neues Glück"
+     "No way Jose")
+   response/json))
+
+(defpage [:post "/upvote/:lan/:game"] {:keys [lan game]}
+  (response/json (party/upvote-game lan game)))
+
 (defpage "/lans/:id" {:keys [id]}
   (response/json (party/by-id id)))
 
