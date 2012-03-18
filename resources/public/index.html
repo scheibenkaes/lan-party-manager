@@ -73,9 +73,11 @@
 
                 </tr>
               </tfoot>
-              <tbody>
+              <tbody data-bind="foreach: selectedLAN().games">
                 <tr>
-                  <td>Worms</td><td>5</td><td><a class="btn btn-success"><i class="icon-user icon-white"></i>Upvote</a></td>
+                  <td data-bind="text: name"></td>
+                  <td data-bind="text: votes"></td>
+                  <td><a class="btn btn-success"><i class="icon-user icon-white"></i>Upvote</a></td>
                 </tr>
               </tbody>
             </table>  
