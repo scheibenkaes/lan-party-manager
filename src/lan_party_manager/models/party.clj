@@ -1,4 +1,5 @@
 (ns lan-party-manager.models.party
+  (:use [clojure.set :only [superset?]])
   (:use somnium.congomongo))
 
 (def lan-party-required-keys #{:name :games :date :players})
@@ -6,7 +7,8 @@
 (def game-required-keys #{:name :votes})
 
 (defn validate [obj reqs]
-  (when-let [ks (keys obj)] (every? reqs ks)))
+  (when-let [ks (set (keys obj))]
+    (superset? ks lan-party-required-keys)))
 
 (defn id->str [obj]
   (update-in obj [:_id] str))
@@ -16,9 +18,6 @@
 
 (defn by-id [id]
   (id->str (fetch-by-id :lans (object-id id))))
-
-(defn all-proposed-games []
-  (->> (fetch :lans :only [:games]) (map :games) (apply concat) (map id->str) set))
 
 (def votemaps :votemaps)
 
