@@ -25,8 +25,7 @@
 (defn upvote-game
   "increment the value in the votemap"
   [lan-id game]
-  (let [m (fetch-one votemaps :where {:lan (object-id lan-id)})]
-    (fetch-and-modify votemaps {:lan (object-id lan-id)} {:$inc {(str "map." game) 1}})))
+  (fetch-and-modify votemaps {:lan (object-id lan-id)} {:$inc {(str "map." game) 1}}))
 
 (defn create-vote-map
   "create a new vote map for the given lan"
