@@ -37,9 +37,9 @@ function ViewModel() {
 
     this.proposeGame = function(element) {
         var game = $('#newgame').val();
-        var url = '/addgame/' + this.selectedLAN()._id;
+        var url = '/addgame/' + this.selectedLAN()._id.$oid;
         $.post(url, {game: game}, function(){
-                   self.updateSelectedLAN(self.selectedLAN()._id);
+                   self.updateSelectedLAN(self.selectedLAN()._id.$oid);
                    self.newGame(null);
                    window.location.reload();
                });
@@ -55,8 +55,8 @@ function ViewModel() {
 
     this.upvoteClicked = function(elm) {
         var game = elm[0];
-        $.post('/upvote/'+self.selectedLAN()._id, {game: game}, function(data){
-                   self.updateVotersMap(self.selectedLAN()._id);
+        $.post('/upvote/'+self.selectedLAN()._id.$oid, {game: game}, function(data){
+                   self.updateVotersMap(self.selectedLAN()._id.$oid);
                    if (data)
                        self.upvoteMessage(data);
                    else

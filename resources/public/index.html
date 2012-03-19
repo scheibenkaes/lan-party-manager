@@ -33,8 +33,8 @@
           </thead>
           <tbody data-bind="foreach: lansToCome">
             <tr>
-              <td><a href="#" data-bind="text: name, attr: {href: '#/' + _id}"></a></td>
-              <td data-bind="text: date"></td>
+              <td><a href="#" data-bind="text: name, attr: {href: '#/' + _id['$oid']}"></a></td>
+              <td data-bind="text: $data.date.$date"></td>
               <td data-bind="text: players.length"></td>
             </tr>
           </tbody>
@@ -42,7 +42,7 @@
       </div>
 
       <div class="row span12" data-bind="if: selectedLAN">
-        <h2><span data-bind="text: selectedLAN().name"></span> - <span data-bind="text: selectedLAN().date"></span></h2>
+        <h2><span data-bind="text: selectedLAN().name"></span> - <span data-bind="text: selectedLAN().date.$date"></span></h2>
         <div class="row">  
           <div class="span4">
             <h3>Teilnehmer</h3>

@@ -1,4 +1,5 @@
 (ns lan-party-manager.models.party
+  (:use [clojure.data.json :only [read-json]])
   (:use [clojure.string :only [trim]])
   (:use [clojure.set :only [superset?]])
   (:use somnium.congomongo))
@@ -15,10 +16,10 @@
   (update-in obj [:_id] str))
 
 (defn all-lans []
-  (map id->str (fetch :lans)))
+  (map read-json (fetch :lans :sort {:date -1} :as :json)))
 
 (defn by-id [id]
-  (id->str (fetch-by-id :lans (object-id id))))
+  (read-json (fetch-by-id :lans (object-id id) :as :json)))
 
 (def votemaps :votemaps)
 
