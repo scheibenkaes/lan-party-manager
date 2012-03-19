@@ -33,7 +33,7 @@
 
 (defpage [:post "/upvote/:lan"] {:keys [lan game]}
   (if (already-voted? lan game)
-    (response/json "already voted, thank you!")
+    (response/json nil)
     (response/json (upvote lan game))))
 
 (defpage "/lans/:id" {:keys [id]}

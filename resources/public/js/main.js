@@ -41,6 +41,7 @@ function ViewModel() {
         $.post(url, {game: game}, function(){
                    self.updateSelectedLAN(self.selectedLAN()._id);
                    self.newGame(null);
+                   window.location.reload();
                });
     };
 
@@ -56,7 +57,11 @@ function ViewModel() {
         var game = elm[0];
         $.post('/upvote/'+self.selectedLAN()._id, {game: game}, function(data){
                    self.updateVotersMap(self.selectedLAN()._id);
-                   self.upvoteMessage(data);
+                   if (data)
+                       self.upvoteMessage(data);
+                   else
+                       alert("Jeder nur ein Kreuz!");
+
                });
     };    
 }
