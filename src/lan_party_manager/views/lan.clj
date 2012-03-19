@@ -2,6 +2,8 @@
   (:use [lan-party-manager.views.common :only [layout]])
   (:require [lan-party-manager.models.party :as party])
   (:require [noir.response :as response])
+  (:require [noir.session :as session])
+  (:use [clojure.string :only [lower-case]])
   (:use [net.cgrand.enlive-html :only [deftemplate]])
   (:use [noir.core :only [defpage]]))
 
@@ -19,8 +21,20 @@
 (defpage "/votemap/:id" {id :id}
   (response/json (party/get-vote-map id)))
 
+(defn session-key [lan game]
+  (str lan ":" (lower-case game)))
+
+(defn already-voted? [lan game]
+  (session/get (session-key lan game) false))
+
+(defn upvote [lan game]
+  (party/upvote-game lan game)
+  (session/put! (session-key lan game) true))
+
 (defpage [:post "/upvote/:lan"] {:keys [lan game]}
-  (response/json (party/upvote-game lan game)))
+  (if (already-voted? lan game)
+    (response/json "already voted, thank you!")
+    (response/json (upvote lan game))))
 
 (defpage "/lans/:id" {:keys [id]}
   (response/json (party/by-id id)))
@@ -28,8 +42,7 @@
 (defpage "/lans" []
   (response/json (party/all-lans)))
 
-(deftemplate index-template "public/index.html" []
-  )
+(deftemplate index-template "public/index.html" [])
 
 (defpage "/" []
   (index-template))
